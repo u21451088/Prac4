@@ -65,10 +65,17 @@ public class TOpFOrm extends javax.swing.JFrame {
         searchField = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        filmTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
 
-        NewFilmFrame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        NewFilmFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        NewFilmFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                NewFilmFrameWindowClosed(evt);
+            }
+        });
 
         jLabel2.setText("Film Title");
 
@@ -97,29 +104,6 @@ public class TOpFOrm extends javax.swing.JFrame {
         languageCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         origChooseLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        origChooseLanguage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                origChooseLanguageActionPerformed(evt);
-            }
-        });
-
-        filmDur.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filmDurActionPerformed(evt);
-            }
-        });
-
-        filmRating.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filmRatingActionPerformed(evt);
-            }
-        });
-
-        specialFeat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                specialFeatActionPerformed(evt);
-            }
-        });
 
         jButton2.setText("Add Film");
 
@@ -258,12 +242,12 @@ public class TOpFOrm extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
+                .addContainerGap(265, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -281,21 +265,46 @@ public class TOpFOrm extends javax.swing.JFrame {
             }
         });
 
+        filmTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Title", "Description", "Year", "Lanuage", "Original Language", "Rental Duration", "Rental Rate", "Length", "Replacement Cost", "Rating", "Special Features"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(filmTable);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(213, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(312, 312, 312)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 917, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(142, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(115, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Film", jPanel2);
@@ -304,11 +313,11 @@ public class TOpFOrm extends javax.swing.JFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 979, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Inventory", jPanel3);
@@ -317,11 +326,11 @@ public class TOpFOrm extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 750, Short.MAX_VALUE)
+            .addGap(0, 979, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 646, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Client", jPanel4);
@@ -356,24 +365,14 @@ public class TOpFOrm extends javax.swing.JFrame {
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //TODO set size of Frame
         NewFilmFrame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void origChooseLanguageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_origChooseLanguageActionPerformed
+    private void NewFilmFrameWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_NewFilmFrameWindowClosed
         // TODO add your handling code here:
-    }//GEN-LAST:event_origChooseLanguageActionPerformed
-
-    private void filmDurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filmDurActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_filmDurActionPerformed
-
-    private void filmRatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filmRatingActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_filmRatingActionPerformed
-
-    private void specialFeatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_specialFeatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_specialFeatActionPerformed
+        //Add NewestFilm to the table showing the Films
+    }//GEN-LAST:event_NewFilmFrameWindowClosed
 
     /**
      * @param args the command line arguments
@@ -414,6 +413,7 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JFrame NewFilmFrame;
     private javax.swing.JTextField filmDur;
     private javax.swing.JTextField filmRating;
+    public javax.swing.JTable filmTable;
     private javax.swing.JTextField filmTitle;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -434,6 +434,7 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox<String> languageCombo;
