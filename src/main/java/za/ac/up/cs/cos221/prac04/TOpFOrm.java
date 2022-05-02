@@ -4,6 +4,7 @@
  */
 package za.ac.up.cs.cos221.prac04;
 
+import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -74,6 +75,8 @@ public class TOpFOrm extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         filmTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        inventoryTable = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
 
         NewFilmFrame.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -320,15 +323,39 @@ public class TOpFOrm extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Film", jPanel2);
 
+        inventoryTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Store Num", "Genre", "Number of Movies"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(inventoryTable);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 979, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(221, 221, 221)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 646, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(86, 86, 86)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Inventory", jPanel3);
@@ -381,22 +408,29 @@ public class TOpFOrm extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void NewFilmFrameWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_NewFilmFrameWindowClosed
-        // TODO add your handling code here:
         //Add NewestFilm to the table showing the Films
-    }//GEN-LAST:event_NewFilmFrameWindowClosed
-
-    private void addFillmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFillmButtonActionPerformed
-        //Adding New Entry to table
         try ( Statement stmt = MySQL.conn.createStatement()) {
             DefaultTableModel model = (DefaultTableModel) filmTable.getModel();
             ResultSet rs = stmt.executeQuery("SELECT DISTINCT * FROM u21451088_sakila.film, u21451088_sakila.language WHERE film.language_id = language.language_id OR film.original_language_id = language.language_id ORDER BY film_id DESC LIMIT 1");
             while (rs.next()) {
-
                 model.addRow(new Object[]{rs.getString("title"), rs.getString("description"), rs.getString("release_year"), rs.getString("name"), rs.getString("original_language_id"), rs.getInt("rental_duration"), rs.getString("rental_duration"), rs.getString("length"), rs.getString("replacement_cost"), rs.getString("rating"), rs.getString("special_features")});
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
+    }//GEN-LAST:event_NewFilmFrameWindowClosed
+
+    private void addFillmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFillmButtonActionPerformed
+        try ( Statement stmt = MySQL.conn.createStatement()) {
+            String title, description, languageID, rentalDuration, rentalRate, length, replCost;
+            int rating, year;
+            //stmt.executeQuery("INSERT INTO `u21451088_sakila`.`film` (`title`, `description`, `release_year`, `language_id`, `rental_duration`, `rental_rate`, `length`, `replacement_cost`, `rating`) VALUES ('tit', 'des', 2010, '1', '3', '0.69', '91', '220', 'PG-13')");
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        NewFilmFrame.dispatchEvent(new WindowEvent(NewFilmFrame, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_addFillmButtonActionPerformed
 
     /**
@@ -441,6 +475,7 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JTextField filmRating;
     public javax.swing.JTable filmTable;
     private javax.swing.JTextField filmTitle;
+    public javax.swing.JTable inventoryTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -460,6 +495,7 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JComboBox<String> languageCombo;
