@@ -23,7 +23,7 @@ public class Prac04 {
                 MySQL sql = new MySQL();
 
                 //Adding Entries to StaffTable
-                try ( Statement stmt = sql.conn.createStatement()) {
+                try ( Statement stmt = MySQL.conn.createStatement()) {
                     DefaultTableModel model = (DefaultTableModel) dawg.staffTable.getModel();
                     ResultSet rs = stmt.executeQuery("SELECT `first_name`, `last_name`, `address`, `address2`, `district`, `city_id` AS `city`, `postal_code`, `phone`, `store_id` AS `store`, `active` FROM u21451088_sakila.staff, u21451088_sakila.address WHERE staff.address_id = address.address_id");
                     while (rs.next()) {
@@ -37,7 +37,7 @@ public class Prac04 {
                 }
 
                 //Adding Entries to FilmsTable
-                try ( Statement stmt = sql.conn.createStatement()) {
+                try ( Statement stmt = MySQL.conn.createStatement()) {
                     DefaultTableModel model = (DefaultTableModel) dawg.filmTable.getModel();
                     ResultSet rs = stmt.executeQuery("SELECT DISTINCT * FROM u21451088_sakila.film, u21451088_sakila.language WHERE film.language_id = language.language_id OR film.original_language_id = language.language_id");
                     while (rs.next()) {

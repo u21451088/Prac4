@@ -12,15 +12,17 @@ import java.sql.*;
  */
 public class MySQL {
 
-    Connection conn;
+    static Connection conn;
 
     public MySQL() {
         String connectionUrl = "jdbc:mysql://localhost:3306/u21451088_sakila?serverTimezone=UTC";
-        try {
-            conn = DriverManager.getConnection(connectionUrl, "root", "#1Poopoo");
-        } catch (SQLException e) {
-            // handle the exception
-            System.out.println(e);
+        if (conn == null) {
+            try {
+                conn = DriverManager.getConnection(connectionUrl, "root", "#1Poopoo");
+            } catch (SQLException e) {
+                // handle the exception
+                System.out.println(e);
+            }
         }
     }
 

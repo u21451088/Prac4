@@ -4,8 +4,12 @@
  */
 package za.ac.up.cs.cos221.prac04;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.regex.PatternSyntaxException;
 import javax.swing.RowFilter;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -14,7 +18,9 @@ import javax.swing.table.TableRowSorter;
  * @author Thuthuka
  */
 public class TOpFOrm extends javax.swing.JFrame {
+
     TableRowSorter<TableModel> sorter;
+
     /**
      * Creates new form TOpFOrm
      */
@@ -56,7 +62,7 @@ public class TOpFOrm extends javax.swing.JFrame {
         filmRating = new javax.swing.JTextField();
         specialFeat = new javax.swing.JTextField();
         filmTitle = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        addFillmButton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -105,7 +111,12 @@ public class TOpFOrm extends javax.swing.JFrame {
 
         origChooseLanguage.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton2.setText("Add Film");
+        addFillmButton.setText("Add Film");
+        addFillmButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFillmButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout NewFilmFrameLayout = new javax.swing.GroupLayout(NewFilmFrame.getContentPane());
         NewFilmFrame.getContentPane().setLayout(NewFilmFrameLayout);
@@ -145,7 +156,7 @@ public class TOpFOrm extends javax.swing.JFrame {
                 .addContainerGap(85, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, NewFilmFrameLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addFillmButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(49, 49, 49))
         );
         NewFilmFrameLayout.setVerticalGroup(
@@ -196,7 +207,7 @@ public class TOpFOrm extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(specialFeat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(addFillmButton)
                 .addGap(22, 22, 22))
         );
 
@@ -374,6 +385,20 @@ public class TOpFOrm extends javax.swing.JFrame {
         //Add NewestFilm to the table showing the Films
     }//GEN-LAST:event_NewFilmFrameWindowClosed
 
+    private void addFillmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFillmButtonActionPerformed
+        //Adding New Entry to table
+        try ( Statement stmt = MySQL.conn.createStatement()) {
+            DefaultTableModel model = (DefaultTableModel) filmTable.getModel();
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT * FROM u21451088_sakila.film, u21451088_sakila.language WHERE film.language_id = language.language_id OR film.original_language_id = language.language_id ORDER BY film_id DESC LIMIT 1");
+            while (rs.next()) {
+
+                model.addRow(new Object[]{rs.getString("title"), rs.getString("description"), rs.getString("release_year"), rs.getString("name"), rs.getString("original_language_id"), rs.getInt("rental_duration"), rs.getString("rental_duration"), rs.getString("length"), rs.getString("replacement_cost"), rs.getString("rating"), rs.getString("special_features")});
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }//GEN-LAST:event_addFillmButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -411,12 +436,12 @@ public class TOpFOrm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame NewFilmFrame;
+    private javax.swing.JButton addFillmButton;
     private javax.swing.JTextField filmDur;
     private javax.swing.JTextField filmRating;
     public javax.swing.JTable filmTable;
     private javax.swing.JTextField filmTitle;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
