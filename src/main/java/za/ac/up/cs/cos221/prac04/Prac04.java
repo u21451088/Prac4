@@ -16,11 +16,13 @@ public class Prac04 {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                // Stuff for GUI
                 TOpFOrm dawg = new TOpFOrm();
                 dawg.setVisible(true);
-
+                
                 MySQL sql = new MySQL();
 
+                //Adding Entries to StaffTable
                 try ( Statement stmt = sql.conn.createStatement()) {
                     DefaultTableModel model = (DefaultTableModel) dawg.staffTable.getModel();
                     ResultSet rs = stmt.executeQuery("SELECT `first_name`, `last_name`, `address`, `address2`, `district`, `city_id` AS `city`, `postal_code`, `phone`, `store_id` AS `store`, `active` FROM u21451088_sakila.staff, u21451088_sakila.address WHERE staff.address_id = address.address_id");
@@ -34,6 +36,7 @@ public class Prac04 {
                     System.out.println(e);
                 }
 
+                
             }
         });
     }
