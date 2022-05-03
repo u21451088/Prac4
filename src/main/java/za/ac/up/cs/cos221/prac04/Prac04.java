@@ -71,8 +71,11 @@ public class Prac04 {
                 } catch (SQLException e) {
                     System.out.println(e);
                 }
-                dawg.clientTable.getColumn(" ").setCellRenderer(new RenderAndEdit(dawg.clientTable));
-                dawg.clientTable.getColumn(" ").setCellEditor(new RenderAndEdit(dawg.clientTable));
+                dawg.clientTable.getColumn("Delete").setCellRenderer(new RenderAndEdit(dawg.clientTable, true));
+                dawg.clientTable.getColumn("Delete").setCellEditor(new RenderAndEdit(dawg.clientTable, true));
+                dawg.clientTable.getColumn("Update").setCellRenderer(new RenderAndEdit(dawg.clientTable, false));
+                dawg.clientTable.getColumn("Update").setCellEditor(new RenderAndEdit(dawg.clientTable, false));
+            
             }
         });
     }

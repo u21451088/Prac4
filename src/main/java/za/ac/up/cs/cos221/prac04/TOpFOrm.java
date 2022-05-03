@@ -375,11 +375,11 @@ public class TOpFOrm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "#", "Store#", "First Name", "Last Name", "Email", "Address ID", "Active", " ", ""
+                "#", "Store#", "First Name", "Last Name", "Email", "Address ID", "Active", "Delete", "Update"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true, true, false
+                false, true, true, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -549,16 +549,40 @@ class RenderAndEdit implements TableCellRenderer, TableCellEditor {
 
     javax.swing.JButton btn;
     private int row;
+    boolean delete = true;
 
-    RenderAndEdit(javax.swing.JTable table) {
-        btn = new javax.swing.JButton("Remove");
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                System.out.println(model.getDataVector().get(row));
-                model.removeRow(row);
-            }
-        });
+    RenderAndEdit(javax.swing.JTable table, boolean delete) {
+        if (delete) {
+            btn = new javax.swing.JButton("Remove");
+            btn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    System.out.println(model.getDataVector().get(row));
+                    try ( Statement stmt = MySQL.conn.createStatement()) {
+                        Object[] data = model.getDataVector().get(row).toArray();
+                        stmt.execute("DELETE FROM `u21451088_sakila`.`payment`" + " WHERE (`customer_id` = '" + model.getDataVector().get(row).get(0) + "')");
+                        stmt.execute("DELETE FROM `u21451088_sakila`.`rental`" + " WHERE (`customer_id` = '" + model.getDataVector().get(row).get(0) + "')");
+                        stmt.execute("DELETE FROM `u21451088_sakila`.`customer`" + " WHERE (`customer_id` = '" + model.getDataVector().get(row).get(0) + "')");
+                    } catch (SQLException dawgE) {
+                        System.out.println(dawgE);
+                    }
+                    model.removeRow(row);
+                }
+            });
+        } else {
+            btn = new javax.swing.JButton("Update");
+            btn.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    DefaultTableModel model = (DefaultTableModel) table.getModel();
+                    try ( Statement stmt = MySQL.conn.createStatement()) {
+                        Object[] data = model.getDataVector().get(row).toArray();
+                        stmt.execute("UPDATE `u21451088_sakila`.`customer` SET `first_name` = '" + data[2] + "', `last_name` = '" + data[3] + "', `email` = '" + data[4] + "', `address_id` = " + data[5] + ", `active` = " + (data[6].equals("active") ? 1 : 0) + " WHERE (`customer_id` = '" + data[0] + "')");
+                    } catch (SQLException dawgE) {
+                        System.out.println(dawgE);
+                    }
+                }
+            });
+        }
     }
 
     @Override
