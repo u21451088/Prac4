@@ -463,7 +463,6 @@ public class TOpFOrm extends javax.swing.JFrame {
         } catch (SQLException e) {
             System.out.println(e);
         }
-
         NewFilmFrame.dispatchEvent(new WindowEvent(NewFilmFrame, WindowEvent.WINDOW_CLOSING));
     }//GEN-LAST:event_addFillmButtonActionPerformed
 
