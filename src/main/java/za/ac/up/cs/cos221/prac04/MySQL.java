@@ -16,7 +16,6 @@ public class MySQL {
     static Connection conn;
 
     public MySQL() {
-        System.out.println(System.getenv("SAKILA_DB_HOST"));
         proto = System.getenv("SAKILA_DB_PROTO");
         host = System.getenv("SAKILA_DB_HOST");
         port = System.getenv("SAKILA_DB_PORT");

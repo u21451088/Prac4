@@ -6,6 +6,8 @@ package za.ac.up.cs.cos221.prac04;
 
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -76,6 +78,23 @@ public class Prac04 {
                 dawg.clientTable.getColumn("Update").setCellRenderer(new RenderAndEdit(dawg.clientTable, false));
                 dawg.clientTable.getColumn("Update").setCellEditor(new RenderAndEdit(dawg.clientTable, false));
             
+                //Adding Options for choosing Language
+                //new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" })
+                try(Statement stmt = MySQL.conn.createStatement()) {
+                    Vector<String> languageVec = new Vector<>();
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM u21451088_sakila.language");
+                    while(rs.next()) {
+                        languageVec.add(rs.getString("name"));
+                    }
+                    String[] languages = new String[languageVec.size()];
+                    for(int i = 0; i < languages.length; i++) {
+                        languages[i] = languageVec.get(i);
+                    }
+                    dawg.languageCombo.setModel(new DefaultComboBoxModel<>(languages));
+                    dawg.origChooseLanguage.setModel(new DefaultComboBoxModel<>(languages));
+                } catch(SQLException e) {
+                    
+                }
             }
         });
     }

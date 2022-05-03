@@ -61,7 +61,7 @@ public class TOpFOrm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        filmDesc = new javax.swing.JTextArea();
         releaseYear = new javax.swing.JTextField();
         languageCombo = new javax.swing.JComboBox<>();
         origChooseLanguage = new javax.swing.JComboBox<>();
@@ -116,9 +116,9 @@ public class TOpFOrm extends javax.swing.JFrame {
 
         jLabel11.setText("Special Features");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        filmDesc.setColumns(20);
+        filmDesc.setRows(5);
+        jScrollPane2.setViewportView(filmDesc);
 
         languageCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -456,10 +456,10 @@ public class TOpFOrm extends javax.swing.JFrame {
 
     private void addFillmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFillmButtonActionPerformed
         try ( Statement stmt = MySQL.conn.createStatement()) {
-            String title, description, languageID, rentalDuration, rentalRate, length, replCost;
-            int rating, year;
-            //stmt.executeQuery("INSERT INTO `u21451088_sakila`.`film` (`title`, `description`, `release_year`, `language_id`, `rental_duration`, `rental_rate`, `length`, `replacement_cost`, `rating`) VALUES ('tit', 'des', 2010, '1', '3', '0.69', '91', '220', 'PG-13')");
-
+            String rating = filmRating.getText(), title = filmTitle.getText(), description = filmDesc.getText(), language = (String) languageCombo.getSelectedItem(), origLanguage = (String)origChooseLanguage.getSelectedItem(), rentalDuration = rentDur.getText(), rentalRate = rentRate.getText(), length = filmDur.getText(), replCost = "3.99";
+            int year = Integer.parseInt(releaseYear.getText());
+            //Validation that doesnt exist
+            stmt.execute("INSERT INTO `u21451088_sakila`.`film` (`title`, `description`, `release_year`, `language_id`, `original_language_id`, `rental_duration`, `rental_rate`, `length`, `replacement_cost`, `rating`) VALUES ('" + title + "', '" + description + "', '" + year + "', (SELECT language_id FROM language WHERE name = '" + language + "'), (SELECT language_id FROM language WHERE name = '" + origLanguage + "'), '" + length + "', '" + rentalRate + "', '" + length + "','" + replCost + "', '" + rating +"')");
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -506,6 +506,7 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JFrame NewFilmFrame;
     private javax.swing.JButton addFillmButton;
     public javax.swing.JTable clientTable;
+    private javax.swing.JTextArea filmDesc;
     private javax.swing.JTextField filmDur;
     private javax.swing.JTextField filmRating;
     public javax.swing.JTable filmTable;
@@ -533,9 +534,8 @@ public class TOpFOrm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JComboBox<String> languageCombo;
-    private javax.swing.JComboBox<String> origChooseLanguage;
+    public javax.swing.JComboBox<String> languageCombo;
+    public javax.swing.JComboBox<String> origChooseLanguage;
     private javax.swing.JTextField releaseYear;
     private javax.swing.JTextField rentDur;
     private javax.swing.JTextField rentRate;
