@@ -57,6 +57,22 @@ public class Prac04 {
                 } catch (SQLException e) {
                     System.out.println(e);
                 }
+
+                //Addubg entries to client Table
+                try ( Statement stmt = MySQL.conn.createStatement()) {
+                    DefaultTableModel model = (DefaultTableModel) dawg.clientTable.getModel();
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM u21451088_sakila.customer");
+                    while (rs.next()) {
+                        int custID = rs.getInt("customer_id"), storeID = rs.getInt("store_id"), addressID = rs.getInt("address_id");
+                        String fName = rs.getString("first_name"), lName = rs.getString("last_name"), email = rs.getString("email");
+                        boolean active = rs.getBoolean("active");
+                        model.addRow(new Object[]{custID, storeID, fName, lName, email, addressID, active ? "active" : "non-active", "", ""});
+                    }
+                } catch (SQLException e) {
+                    System.out.println(e);
+                }
+                dawg.clientTable.getColumn(" ").setCellRenderer(new RenderAndEdit(dawg.clientTable));
+                dawg.clientTable.getColumn(" ").setCellEditor(new RenderAndEdit(dawg.clientTable));
             }
         });
     }
