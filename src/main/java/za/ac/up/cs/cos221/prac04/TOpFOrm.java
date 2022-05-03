@@ -437,8 +437,8 @@ public class TOpFOrm extends javax.swing.JFrame {
     }//GEN-LAST:event_searchFieldActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //TODO set size of Frame
         NewFilmFrame.setVisible(true);
+        NewFilmFrame.setSize(600, 700);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void NewFilmFrameWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_NewFilmFrameWindowClosed
